@@ -180,7 +180,7 @@ public class DetailActivity extends BaseActivity {
             tvPlay.setText("全屏");
         }
         //禁用播放地址焦点
-        tvPlayUrl.setFocusable(false);
+        //tvPlayUrl.setFocusable(false);
         tvSort.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -534,7 +534,7 @@ public class DetailActivity extends BaseActivity {
                                 flag.selected = false;
                         }
                         //设置播放地址
-                        setTextShow(tvPlayUrl, "播放地址: ", vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url);
+                        //setTextShow(tvPlayUrl, "播放地址: ", vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url);
                         seriesFlagAdapter.setNewData(vodInfo.seriesFlags);
                         mGridViewFlag.scrollToPosition(flagScrollTo);
 
