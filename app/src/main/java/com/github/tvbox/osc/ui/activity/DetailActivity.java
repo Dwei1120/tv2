@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.ClipboardManager;
-import android.content.ClipData;
+//import android.content.ClipboardManager;
+//import android.content.ClipData;
 
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.Observer;
@@ -99,7 +99,7 @@ public class DetailActivity extends BaseActivity {
     private TextView tvType;
     private TextView tvActor;
     private TextView tvDirector;
-    private TextView tvPlayUrl;
+    //private TextView tvPlayUrl;
     private TextView tvDes;
     private TextView tvPlay;
     private TextView tvSort;
@@ -151,7 +151,7 @@ public class DetailActivity extends BaseActivity {
         tvType = findViewById(R.id.tvType);
         tvActor = findViewById(R.id.tvActor);
         tvDirector = findViewById(R.id.tvDirector);
-        tvPlayUrl = findViewById(R.id.tvPlayUrl);//播放地址
+        //tvPlayUrl = findViewById(R.id.tvPlayUrl);//不显示播放地址
         tvDes = findViewById(R.id.tvDes);
         tvPlay = findViewById(R.id.tvPlay);
         tvSort = findViewById(R.id.tvSort);
@@ -258,6 +258,7 @@ public class DetailActivity extends BaseActivity {
                 }
             }
         });
+        /*
         tvPlayUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,6 +269,7 @@ public class DetailActivity extends BaseActivity {
                 Toast.makeText(DetailActivity.this, "已复制", Toast.LENGTH_SHORT).show();
             }
         });
+        */
         mGridView.setOnItemListener(new TvRecyclerView.OnItemListener() {
             @Override
             public void onItemPreSelected(TvRecyclerView parent, View itemView, int position) {
