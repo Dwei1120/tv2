@@ -150,8 +150,7 @@ public class DetailActivity extends BaseActivity {
         tvLang = findViewById(R.id.tvLang);
         tvType = findViewById(R.id.tvType);
         tvActor = findViewById(R.id.tvActor);
-        tvDirector = findViewById(R.id.tvDirector);
-        //tvPlayUrl = findViewById(R.id.tvPlayUrl);//不显示播放地址
+        tvDirector = findViewById(R.id.tvDirector);//tvPlayUrl = findViewById(R.id.tvPlayUrl);//不显示播放地址
         tvDes = findViewById(R.id.tvDes);
         tvPlay = findViewById(R.id.tvPlay);
         tvSort = findViewById(R.id.tvSort);
