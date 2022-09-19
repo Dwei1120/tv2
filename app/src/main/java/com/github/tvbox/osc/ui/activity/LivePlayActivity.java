@@ -194,8 +194,6 @@ public class LivePlayActivity extends BaseActivity {
         objectAnimator.setRepeatCount(-1);
         objectAnimator.start();
 
-
-
         initVideoView();
         initChannelGroupView();
         initLiveChannelView();
@@ -1315,4 +1313,5 @@ public class LivePlayActivity extends BaseActivity {
         }
         return true;
     }
+    
 }
