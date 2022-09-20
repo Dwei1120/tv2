@@ -118,6 +118,10 @@
         android:visibility="gone"
         tools:visibility="visible">
 
+       <HorizontalScrollView
+            android:scrollbars="none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"> 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,6 +129,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -136,6 +141,7 @@
             
             <TextView
                 android:id="@+id/play_next"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -149,6 +155,7 @@
 
             <TextView
                 android:id="@+id/play_pre"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -162,6 +169,7 @@
 
             <TextView
                 android:id="@+id/play_retry"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -175,6 +183,7 @@
             
             <TextView
                 android:id="@+id/play_refresh"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -188,6 +197,7 @@
 
             <TextView
                 android:id="@+id/zimu_select"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -201,6 +211,7 @@
             
             <TextView
                 android:id="@+id/play_scale"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -214,6 +225,7 @@
 
             <TextView
                 android:id="@+id/play_speed"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -227,6 +239,7 @@
 
             <TextView
                 android:id="@+id/play_player"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -240,6 +253,7 @@
 
             <TextView
                 android:id="@+id/play_ijk"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -252,6 +266,7 @@
                 android:textSize="@dimen/ts_22" />
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -263,6 +278,7 @@
 
             <TextView
                 android:id="@+id/play_time_start"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -276,6 +292,7 @@
 
             <TextView
                 android:id="@+id/play_time_end"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -289,6 +306,7 @@
 
             <TextView
                 android:id="@+id/play_time_step"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -299,9 +317,11 @@
                 android:text="1S"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/ts_22" />
+            
             <!--添加片头片尾重置按钮-->
             <TextView
                 android:id="@+id/play_time_reset"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
@@ -314,6 +334,7 @@
                 android:textSize="@dimen/ts_22" />
 
         </LinearLayout>
+      </HorizontalScrollView>
 
 
         <LinearLayout
