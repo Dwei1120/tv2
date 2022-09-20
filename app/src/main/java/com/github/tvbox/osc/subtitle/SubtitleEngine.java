@@ -45,6 +45,12 @@ public interface SubtitleEngine {
      * @param path 字幕路径（本地路径或者是远程路径）
      */
     void setSubtitlePath(String path);
+    
+    /**
+     *  字幕延时
+     * @param milliseconds
+     */
+    void setSubtitleDelay(Integer milliseconds);
 
     /**
      * 开启字幕刷新任务
