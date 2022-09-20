@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape android:shape="rectangle"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <stroke android:width="2mm" android:color="@android:color/white" />
+    //直播界面背景色
+    //<stroke android:width="2mm" android:color="@android:color/white" />
     <solid android:color="#cc181e28" />
     <corners android:radius="30px" />
 </shape>
