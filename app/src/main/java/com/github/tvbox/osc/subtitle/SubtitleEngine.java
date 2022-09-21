@@ -51,6 +51,10 @@ public interface SubtitleEngine {
      * @param milliseconds
      */
     void setSubtitleDelay(Integer milliseconds);
+    
+    void setPlaySubtitleCacheKey(String cacheKey);
+
+    String getPlaySubtitleCacheKey();
 
     /**
      * 开启字幕刷新任务
