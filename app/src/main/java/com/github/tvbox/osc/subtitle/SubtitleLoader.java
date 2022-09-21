@@ -139,7 +139,7 @@ public class SubtitleLoader {
         });
     }
 
-    public subtitleLoadSuccessResult loadSubtitle(String path) {
+     public SubtitleLoadSuccessResult loadSubtitle(String path) {
         if (TextUtils.isEmpty(path)) {
             return null;
         }
