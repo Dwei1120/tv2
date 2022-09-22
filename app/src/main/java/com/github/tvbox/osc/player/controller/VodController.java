@@ -409,7 +409,6 @@ public class VodController extends BaseController {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            return true;
                         }
 
                         @Override
@@ -432,7 +431,7 @@ public class VodController extends BaseController {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                
+               return true; 
             }
         });
         mPlayerIJKBtn.setOnClickListener(new OnClickListener() {
