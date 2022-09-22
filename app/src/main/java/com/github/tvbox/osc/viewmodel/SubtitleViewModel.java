@@ -115,6 +115,7 @@ public class SubtitleViewModel extends ViewModel {
                         public void onError(com.lzy.okgo.model.Response<String> response) {
                             super.onError(response);
                             setSearchListData(null, page <= 1, true);
+                        }
                     });
         } catch (Exception e) {
             e.printStackTrace();
