@@ -137,7 +137,7 @@
                 android:paddingRight="@dimen/vs_10"
                 android:text="播放"
                 android:textColor="@color/color_FFFFFF"
-                android:textSize="@dimen/ts_22" />
+                android:textSize="@dimen/ts_20" />
             
             <TextView
                 android:id="@+id/play_next"
@@ -287,7 +287,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="片头片尾"
                 android:textColor="@color/color_FFFFFF"
-                android:textSize="@dimen/ts_22" />
+                android:textSize="@dimen/ts_20" />
 
             <TextView
                 android:id="@+id/play_time_start"
