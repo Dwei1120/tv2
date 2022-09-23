@@ -581,6 +581,7 @@ public class VodController extends BaseController {
             @Override
             public boolean onLongClick(View view) {
                 mSubtitleView.setVisibility(View.GONE);
+                mSubtitleView.clearSubtitleCache();
                 hideBottom();
                 Toast.makeText(getContext(), "关闭外挂字幕", Toast.LENGTH_SHORT).show();
                 return true;
