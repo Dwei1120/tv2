@@ -226,10 +226,14 @@ public class PlayFragment extends BaseLazyFragment {
                                         String zimuUrl = subtitle.getUrl();
                                         LOG.i("Remote Subtitle Url: " + zimuUrl);
                                         setSubtitle(zimuUrl);//设置字幕
+                                        if (searchSubtitleDialog != null) {
+                                            searchSubtitleDialog.dismiss();
+                                        }
                                     }
                                 });
                             }
                         });
+                        searchSubtitleDialog.setSearchWord(mVodInfo.playNote);
                         searchSubtitleDialog.show();
                     }
                 });
@@ -321,7 +325,7 @@ public class PlayFragment extends BaseLazyFragment {
     void setSubtitle(String path) {
         if (path != null && path .length() > 0) {
             // 设置字幕
-            mController.mSubtitleView.setVisibility(View.INVISIBLE);
+            mController.mSubtitleView.setVisibility(View.GONE);
             mController.mSubtitleView.setSubtitlePath(path);
             mController.mSubtitleView.setVisibility(View.VISIBLE);
         }
@@ -397,7 +401,7 @@ public class PlayFragment extends BaseLazyFragment {
                         //加载字幕开始
                         // 绑定MediaPlayer
                         mController.mSubtitleView.bindToMediaPlayer(mVideoView.getMediaPlayer());
-                        mController.mSubtitleView.setVisibility(View.INVISIBLE);
+                        mController.mSubtitleView.setVisibility(View.GONE);
                         mController.mSubtitleView.setPlaySubtitleCacheKey(subtitleCacheKey); 
                         if (playSubtitle != null && playSubtitle .length() > 0) {
                             // 设置字幕
@@ -641,7 +645,10 @@ public class PlayFragment extends BaseLazyFragment {
         //存储播放进度
         //Object bodyKey=CacheManager.getCache(MD5.string2MD5(progressKey));
         //重新播放清除现有进度
-        if (reset) CacheManager.delete(MD5.string2MD5(progressKey), 0);
+        if (reset) {
+            CacheManager.delete(MD5.string2MD5(progressKey), 0);
+            CacheManager.delete(MD5.string2MD5(subtitleCacheKey), "");
+        }
         if (Thunder.play(vs.url, new Thunder.ThunderCallback() {
             @Override
             public void status(int code, String info) {
