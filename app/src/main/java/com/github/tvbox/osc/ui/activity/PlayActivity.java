@@ -93,6 +93,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import me.jessyan.autosize.AutoSize;
+import tv.danmaku.ijk.media.player.IMediaPlayer;
+import tv.danmaku.ijk.media.player.IjkTimedText;
 import xyz.doikki.videoplayer.player.AbstractPlayer;
 import xyz.doikki.videoplayer.player.ProgressManager;
 
@@ -199,129 +201,25 @@ public class PlayActivity extends BaseActivity {
             public void errReplay() {
                 errorWithRetry("视频播放出错", false);
             }
-            
+
             @Override
             public void selectSubtitle() {
-                SubtitleDialog subtitleDialog = new SubtitleDialog(PlayActivity.this);
-                subtitleDialog.setSearchSubtitleListener(new SubtitleDialog.SearchSubtitleListener() {
-                    @Override
-                    public void openSearchSubtitleDialog() {
-                        SearchSubtitleDialog searchSubtitleDialog = new SearchSubtitleDialog(PlayActivity.this);
-                        subtitleDialog.setSubtitleViewListener(new SubtitleDialog.SubtitleViewListener() {
-                    @Override
-                    public void setTextSize(int size) {
-                        mController.mSubtitleView.setTextSize(size);
-                    }
-                    @Override
-                    public void setSubtitleDelay(int milliseconds) {
-                        mController.mSubtitleView.setSubtitleDelay(milliseconds);
-                    }
-                });
-                        searchSubtitleDialog.setSubtitleLoader(new SearchSubtitleDialog.SubtitleLoader() {
-                            @Override
-                            public void loadSubtitle(Subtitle subtitle) {
-
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String zimuUrl = subtitle.getUrl();
-                                        LOG.i("Remote Subtitle Url: " + zimuUrl);
-                                        setSubtitle(zimuUrl);//设置字幕
-                                        if (searchSubtitleDialog != null) {
-                                            searchSubtitleDialog.dismiss();
-                                        }
-                                    }
-                                });
-                            }
-                        });
-                        searchSubtitleDialog.setSearchWord(mVodInfo.playNote);
-                        searchSubtitleDialog.show();
-                    }
-                });
-                subtitleDialog.setLocalFileChooserListener(new SubtitleDialog.LocalFileChooserListener() {
-                    @Override
-                    public void openLocalFileChooserDialog() {
-                        new ChooserDialog(PlayActivity.this)
-                                .withFilter(false, false, "srt", "ass", "scc", "stl", "ttml")
-                                .withStartFile("/storage/emulated/0/Download")
-                                .withChosenListener(new ChooserDialog.Result() {
-                                    @Override
-                                    public void onChoosePath(String path, File pathFile) {
-                                        LOG.i("Local Subtitle Path: " + path);
-                                        setSubtitle(path);//设置字幕
-                                    }
-                                })
-                                .build()
-                                .show();
-                    }
-                });
-                subtitleDialog.show();
+                selectMySubtitle();
             }
-            
+
             @Override
             public void selectAudioTrack() {
-                AbstractPlayer mediaPlayer = mVideoView.getMediaPlayer();
-                if (!(mediaPlayer instanceof IjkMediaPlayer)) {
-                    return;
-                }
-                TrackInfo trackInfo = null;
-                if (mediaPlayer instanceof IjkMediaPlayer) {
-                    trackInfo = ((IjkMediaPlayer)mediaPlayer).getTrackInfo();
-                }
-                if (trackInfo == null) {
-                    Toast.makeText(mContext, "没有音轨", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                List<TrackInfoBean> bean = trackInfo.getAudio();
-                if (bean.size() < 1) return;
-                SelectDialog<TrackInfoBean> dialog = new SelectDialog<>(PlayActivity.this);
-                dialog.setTip("切换音轨");
-                dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<TrackInfoBean>() {
-                    @Override
-                    public void click(TrackInfoBean value, int pos) {
-                        try {
-                            for (TrackInfoBean audio : bean) {
-                                audio.selected = audio.index == value.index;
-                            }
-                            mediaPlayer.pause();
-                            long progress = mediaPlayer.getCurrentPosition();//保存当前进度，ijk 切换轨道 会有快进几秒
-                            if (mediaPlayer instanceof IjkMediaPlayer) {
-                                ((IjkMediaPlayer)mediaPlayer).setTrack(value.index);
-                            }
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mediaPlayer.seekTo(progress);
-                                    mediaPlayer.start();
-                                }
-                            }, 800);
-                            dialog.dismiss();
-                        } catch (Exception e) {
-                            LOG.e("切换音轨出错");
-                        }
-                    }
+                selectMyAudioTrack();
+            }
 
-                    @Override
-                    public String getDisplay(TrackInfoBean val) {
-                        return val.index + " : " + val.language;
-                    }
-                }, new DiffUtil.ItemCallback<TrackInfoBean>() {
-                    @Override
-                    public boolean areItemsTheSame(@NonNull @NotNull TrackInfoBean oldItem, @NonNull @NotNull TrackInfoBean newItem) {
-                        return oldItem.index == newItem.index;
-                    }
-
-                    @Override
-                    public boolean areContentsTheSame(@NonNull @NotNull TrackInfoBean oldItem, @NonNull @NotNull TrackInfoBean newItem) {
-                        return oldItem.index == newItem.index;
-                    }
-                }, bean, trackInfo.getAudioSelected(false));
-                dialog.show();
+            @Override
+            public void prepared() {
+                initSubtitleView();
             }
         });
         mVideoView.setVideoController(mController);
     }
-    
+
     //设置字幕
     void setSubtitle(String path) {
         if (path != null && path .length() > 0) {
@@ -330,6 +228,191 @@ public class PlayActivity extends BaseActivity {
             mController.mSubtitleView.setSubtitlePath(path);
             mController.mSubtitleView.setVisibility(View.VISIBLE);
         }
+    }
+
+    void selectMySubtitle() {
+        SubtitleDialog subtitleDialog = new SubtitleDialog(PlayActivity.this);
+        if (mController.mSubtitleView.hasInternal) {
+            subtitleDialog.selectInternal.setVisibility(View.VISIBLE);
+        }
+        subtitleDialog.setSubtitleViewListener(new SubtitleDialog.SubtitleViewListener() {
+            @Override
+            public void setTextSize(int size) {
+                mController.mSubtitleView.setTextSize(size);
+            }
+            @Override
+            public void setSubtitleDelay(int milliseconds) {
+                mController.mSubtitleView.setSubtitleDelay(milliseconds);
+            }
+            @Override
+            public void selectInternalSubtitle() {
+                selectMyInternalSubtitle();
+            }
+        });
+        subtitleDialog.setSearchSubtitleListener(new SubtitleDialog.SearchSubtitleListener() {
+            @Override
+            public void openSearchSubtitleDialog() {
+                SearchSubtitleDialog searchSubtitleDialog = new SearchSubtitleDialog(PlayActivity.this);
+                searchSubtitleDialog.setSubtitleLoader(new SearchSubtitleDialog.SubtitleLoader() {
+                    @Override
+                    public void loadSubtitle(Subtitle subtitle) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String zimuUrl = subtitle.getUrl();
+                                LOG.i("Remote Subtitle Url: " + zimuUrl);
+                                setSubtitle(zimuUrl);//设置字幕
+                                if (searchSubtitleDialog != null) {
+                                    searchSubtitleDialog.dismiss();
+                                }
+                            }
+                        });
+                    }
+                });
+                searchSubtitleDialog.setSearchWord(mVodInfo.playNote);
+                searchSubtitleDialog.show();
+            }
+        });
+        subtitleDialog.setLocalFileChooserListener(new SubtitleDialog.LocalFileChooserListener() {
+            @Override
+            public void openLocalFileChooserDialog() {
+                new ChooserDialog(PlayActivity.this)
+                        .withFilter(false, false, "srt", "ass", "scc", "stl", "ttml")
+                        .withStartFile("/storage/emulated/0/Download")
+                        .withChosenListener(new ChooserDialog.Result() {
+                            @Override
+                            public void onChoosePath(String path, File pathFile) {
+                                LOG.i("Local Subtitle Path: " + path);
+                                setSubtitle(path);//设置字幕
+                            }
+                        })
+                        .build()
+                        .show();
+            }
+        });
+        subtitleDialog.show();
+    }
+
+    void selectMyAudioTrack() {
+        AbstractPlayer mediaPlayer = mVideoView.getMediaPlayer();
+        if (!(mediaPlayer instanceof IjkMediaPlayer)) {
+            return;
+        }
+        TrackInfo trackInfo = null;
+        if (mediaPlayer instanceof IjkMediaPlayer) {
+            trackInfo = ((IjkMediaPlayer)mediaPlayer).getTrackInfo();
+        }
+        if (trackInfo == null) {
+            Toast.makeText(mContext, "没有音轨", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        List<TrackInfoBean> bean = trackInfo.getAudio();
+        if (bean.size() < 1) return;
+        SelectDialog<TrackInfoBean> dialog = new SelectDialog<>(PlayActivity.this);
+        dialog.setTip("切换音轨");
+        dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<TrackInfoBean>() {
+            @Override
+            public void click(TrackInfoBean value, int pos) {
+                try {
+                    for (TrackInfoBean audio : bean) {
+                        audio.selected = audio.index == value.index;
+                    }
+                    mediaPlayer.pause();
+                    long progress = mediaPlayer.getCurrentPosition();//保存当前进度，ijk 切换轨道 会有快进几秒
+                    if (mediaPlayer instanceof IjkMediaPlayer) {
+                        ((IjkMediaPlayer)mediaPlayer).setTrack(value.index);
+                    }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mediaPlayer.seekTo(progress);
+                            mediaPlayer.start();
+                        }
+                    }, 800);
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    LOG.e("切换音轨出错");
+                }
+            }
+
+            @Override
+            public String getDisplay(TrackInfoBean val) {
+                return val.index + " : " + val.language;
+            }
+        }, new DiffUtil.ItemCallback<TrackInfoBean>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull @NotNull TrackInfoBean oldItem, @NonNull @NotNull TrackInfoBean newItem) {
+                return oldItem.index == newItem.index;
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull @NotNull TrackInfoBean oldItem, @NonNull @NotNull TrackInfoBean newItem) {
+                return oldItem.index == newItem.index;
+            }
+        }, bean, trackInfo.getAudioSelected(false));
+        dialog.show();
+    }
+
+    void selectMyInternalSubtitle() {
+        AbstractPlayer mediaPlayer = mVideoView.getMediaPlayer();
+        if (!(mediaPlayer instanceof IjkMediaPlayer)) {
+            return;
+        }
+        TrackInfo trackInfo = null;
+        if (mediaPlayer instanceof IjkMediaPlayer) {
+            trackInfo = ((IjkMediaPlayer)mediaPlayer).getTrackInfo();
+        }
+        if (trackInfo == null) {
+            Toast.makeText(mContext, "没有内置字幕", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        List<TrackInfoBean> bean = trackInfo.getSubtitle();
+        if (bean.size() < 1) return;
+        SelectDialog<TrackInfoBean> dialog = new SelectDialog<>(PlayActivity.this);
+        dialog.setTip("切换内置字幕");
+        dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<TrackInfoBean>() {
+            @Override
+            public void click(TrackInfoBean value, int pos) {
+                try {
+                    for (TrackInfoBean subtitle : bean) {
+                        subtitle.selected = subtitle.index == value.index;
+                    }
+                    mediaPlayer.pause();
+                    long progress = mediaPlayer.getCurrentPosition();//保存当前进度，ijk 切换轨道 会有快进几秒
+                    if (mediaPlayer instanceof IjkMediaPlayer) {
+                        ((IjkMediaPlayer)mediaPlayer).setTrack(value.index);
+                        mController.mSubtitleView.isInternal = true;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mediaPlayer.seekTo(progress);
+                                mediaPlayer.start();
+                            }
+                        }, 800);
+                    }
+
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    LOG.e("切换内置字幕出错");
+                }
+            }
+
+            @Override
+            public String getDisplay(TrackInfoBean val) {
+                return val.index + " : " + val.language;
+            }
+        }, new DiffUtil.ItemCallback<TrackInfoBean>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull @NotNull TrackInfoBean oldItem, @NonNull @NotNull TrackInfoBean newItem) {
+                return oldItem.index == newItem.index;
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull @NotNull TrackInfoBean oldItem, @NonNull @NotNull TrackInfoBean newItem) {
+                return oldItem.index == newItem.index;
+            }
+        }, bean, trackInfo.getSubtitleSelected(false));
+        dialog.show();
     }
 
     void setTip(String msg, boolean loading, boolean err) {
@@ -399,28 +482,46 @@ public class PlayActivity extends BaseActivity {
                         }
                         mVideoView.start();
                         mController.resetSpeed();
-
-                        //加载字幕开始
-                        // 绑定MediaPlayer
-                        mController.mSubtitleView.bindToMediaPlayer(mVideoView.getMediaPlayer());
-                        mController.mSubtitleView.setVisibility(View.GONE);
-                        mController.mSubtitleView.setPlaySubtitleCacheKey(subtitleCacheKey);
-                        if (playSubtitle != null && playSubtitle .length() > 0) {
-                            // 设置字幕
-                            mController.mSubtitleView.setSubtitlePath(playSubtitle);
-                            mController.mSubtitleView.setVisibility(View.VISIBLE);
-                            } else {
-                            String subtitlePathCache = (String)CacheManager.getCache(MD5.string2MD5(subtitleCacheKey));
-                            if (subtitlePathCache != null && !subtitlePathCache.isEmpty()) {
-                                mController.mSubtitleView.setSubtitlePath(subtitlePathCache);
-                                mController.mSubtitleView.setVisibility(View.VISIBLE);
-                            }
-                        }
-                        //加载字幕结束
                     }
                 }
             }
         });
+    }
+
+    private void initSubtitleView() {
+        if (mVideoView.getMediaPlayer() instanceof IjkMediaPlayer) {
+            TrackInfo trackInfo = null;
+            trackInfo = ((IjkMediaPlayer)(mVideoView.getMediaPlayer())).getTrackInfo();
+            if (trackInfo != null && trackInfo.getSubtitle().size() > 0) {
+                mController.mSubtitleView.isInternal = true;
+                mController.mSubtitleView.hasInternal = true;
+
+            }
+            ((IjkMediaPlayer)(mVideoView.getMediaPlayer())).setOnTimedTextListener(new IMediaPlayer.OnTimedTextListener() {
+                @Override
+                public void onTimedText(IMediaPlayer mp, IjkTimedText text) {
+                    if (mController.mSubtitleView.isInternal) {
+                        com.github.tvbox.osc.subtitle.model.Subtitle subtitle = new com.github.tvbox.osc.subtitle.model.Subtitle();
+                        subtitle.content = text.getText();
+                        mController.mSubtitleView.onSubtitleChanged(subtitle);
+                    }
+                }
+            });
+        }
+
+        mController.mSubtitleView.bindToMediaPlayer(mVideoView.getMediaPlayer());
+        mController.mSubtitleView.setPlaySubtitleCacheKey(subtitleCacheKey);
+        if (!mController.mSubtitleView.isInternal) {
+            if (playSubtitle != null && playSubtitle .length() > 0) {
+                // 设置字幕
+                mController.mSubtitleView.setSubtitlePath(playSubtitle);
+            } else {
+                String subtitlePathCache = (String)CacheManager.getCache(MD5.string2MD5(subtitleCacheKey));
+                if (subtitlePathCache != null && !subtitlePathCache.isEmpty()) {
+                    mController.mSubtitleView.setSubtitlePath(subtitlePathCache);
+                }
+            }
+        }
     }
 
     private void initViewModel() {
@@ -630,8 +731,6 @@ public class PlayActivity extends BaseActivity {
         if(mVideoView!=null) mVideoView.release();
         String subtitleCacheKey = mVodInfo.sourceKey + "-" + mVodInfo.id + "-" + mVodInfo.playFlag + "-" + mVodInfo.playIndex + "-subt";
         String progressKey = mVodInfo.sourceKey + mVodInfo.id + mVodInfo.playFlag + mVodInfo.playIndex;
-        //存储播放进度
-        //Object bodyKey=CacheManager.getCache(MD5.string2MD5(progressKey));
         //重新播放清除现有进度
         if (reset) {
             CacheManager.delete(MD5.string2MD5(progressKey), 0);
@@ -659,9 +758,6 @@ public class PlayActivity extends BaseActivity {
             mController.showParse(false);
             return;
         }
-        //sourceViewModel.getPlay(sourceKey, mVodInfo.playFlag, progressKey, vs.url);
-        //执行重新播放后还原之前的进度
-//        if (reset) CacheManager.save(MD5.string2MD5(progressKey),bodyKey);
         sourceViewModel.getPlay(sourceKey, mVodInfo.playFlag, progressKey, vs.url, subtitleCacheKey);
     }
 
@@ -996,7 +1092,7 @@ public class PlayActivity extends BaseActivity {
         }
     }
 
-//    void loadUrl(String url) {
+    //    void loadUrl(String url) {
 //        runOnUiThread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -1013,7 +1109,7 @@ public class PlayActivity extends BaseActivity {
 //            }
 //        });
 //    }
-        void loadUrl(String url) {
+    void loadUrl(String url) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -1022,7 +1118,7 @@ public class PlayActivity extends BaseActivity {
                     mXwalkWebView.stopLoading();
                     Map<String, String > map = new HashMap<String, String>() ;
 
-                        if(webUserAgent != null) {
+                    if(webUserAgent != null) {
                         mXwalkWebView.getSettings().setUserAgentString(webUserAgent);
                     }
                     //mXwalkWebView.clearCache(true);
@@ -1032,7 +1128,7 @@ public class PlayActivity extends BaseActivity {
                         mXwalkWebView.loadUrl(url);
                     }
                 }
-            if (mSysWebView != null) {
+                if (mSysWebView != null) {
                     mSysWebView.stopLoading();
                     if(webUserAgent != null) {
                         mSysWebView.getSettings().setUserAgentString(webUserAgent);
