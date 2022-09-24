@@ -118,25 +118,6 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/vs_10"
                 android:layout_width="@dimen/vs_480"
-                android:layout_height="@dimen/vs_40">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="设置仅外挂字幕有效"
-                    android:textColor="@color/color_6C3D3D3D"
-                    android:textSize="@dimen/ts_22" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/vs_10"
-                android:layout_width="@dimen/vs_480"
                 android:layout_height="@dimen/vs_60">
                 <TextView
                     android:id="@+id/subtitleTimeMinus"
@@ -178,7 +159,25 @@
                     android:textColor="@color/color_FFFFFF"
                     android:textSize="@dimen/ts_30" />
 
-                
+            </LinearLayout>
+            
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/vs_10"
+                android:layout_width="@dimen/vs_480"
+                android:layout_height="@dimen/vs_40">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="设置仅外挂字幕有效"
+                    android:textColor="@color/color_6C3D3D3D"
+                    android:textSize="@dimen/ts_22" />
+
             </LinearLayout>
             
         </LinearLayout>
