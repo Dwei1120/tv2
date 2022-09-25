@@ -110,6 +110,12 @@
             </LinearLayout>
             
             <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/vs_60"
+                    android:layout_marginBottom="@dimen/vs_10"
+                    android:focusable="false"
+                    android:orientation="horizontal">
+                <LinearLayout
                     android:id="@+id/llHomeApi"
                     android:layout_width="@dimen/vs_0"
                     android:layout_height="match_parent"
@@ -155,12 +161,6 @@
                         android:textSize="@dimen/ts_30" />
             </LinearLayout>
                 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/vs_60"
-                    android:layout_marginBottom="@dimen/vs_10"
-                    android:focusable="false"
-                    android:orientation="horizontal">
                 <LinearLayout
                     android:id="@+id/epgApi"
                     android:layout_width="@dimen/vs_0"
