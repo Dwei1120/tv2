@@ -204,16 +204,17 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void selectSubtitle() {
-                selectMySubtitle();
-            }
-
-            @Override
-            public void selectAudioTrack() {
                 try {
                     selectMySubtitle();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+
+            @Override
+            public void selectAudioTrack() {
+                selectMyAudioTrack();
+                
             }
 
             @Override
