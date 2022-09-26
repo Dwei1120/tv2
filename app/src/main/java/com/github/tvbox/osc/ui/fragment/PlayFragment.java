@@ -1364,6 +1364,9 @@ public class PlayFragment extends BaseLazyFragment {
 //            if (url.endsWith("/favicon.ico")) {
 //                return new WebResourceResponse("image/png", null, null);
 //            }
+            if (url.endsWith("/favicon.ico")) {
+                return null;
+            }
             LOG.i("shouldInterceptRequest url:" + url);
             boolean ad;
             if (!loadedUrls.containsKey(url)) {
@@ -1537,6 +1540,9 @@ public class PlayFragment extends BaseLazyFragment {
 //            if (url.endsWith("/favicon.ico")) {
 //                return createXWalkWebResourceResponse("image/png", null, null);
 //            }
+            if (url.endsWith("/favicon.ico")) {
+                return null;
+            }
             LOG.i("shouldInterceptLoadRequest url:" + url);
             boolean ad;
             if (!loadedUrls.containsKey(url)) {
