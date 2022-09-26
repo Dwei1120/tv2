@@ -316,7 +316,7 @@ public class LivePlayActivity extends BaseActivity {
                 countDownTimer.cancel();
             }
 
-            countDownTimer = new CountDownTimer(10000, 1000) {//底部epg隐藏时间设定
+            countDownTimer = new CountDownTimer(8000, 1000) {//底部epg隐藏时间设定
                 public void onTick(long j) {
                 }
 
@@ -340,7 +340,7 @@ public class LivePlayActivity extends BaseActivity {
                 countDownTimerRightTop.cancel();
             }
 
-            countDownTimerRightTop = new CountDownTimer(10000, 1000) {
+            countDownTimerRightTop = new CountDownTimer(8000, 1000) {
                 public void onTick(long j) {
                 }
 
