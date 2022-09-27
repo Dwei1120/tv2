@@ -1375,6 +1375,7 @@ public class PlayActivity extends BaseActivity {
                     } else {
                         playUrl(url, null);
                     }
+                    mController.setUrlTitle("视频地址："+url);
                     stopLoadWebView(false);
                 }
             }
@@ -1563,6 +1564,7 @@ public class PlayActivity extends BaseActivity {
                     } else {
                         playUrl(url, null);
                     }
+                    mController.setUrlTitle("视频地址："+url);
                     stopLoadWebView(false);
                 }
             }
