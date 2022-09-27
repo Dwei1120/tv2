@@ -315,6 +315,7 @@ public class SearchActivity extends BaseActivity {
 //                    @Override
 //                    public void onSuccess(Response<String> response) {
 //                        try {
+//                            ArrayList<String> hots = new ArrayList<>();
 //                            String result = response.body();
 //                            JsonObject json = JsonParser.parseString(result).getAsJsonObject();
 //                            JsonArray itemList = json.get("data").getAsJsonArray();
@@ -501,7 +502,7 @@ public class SearchActivity extends BaseActivity {
         }
         EventBus.getDefault().unregister(this);
     }
-
+/*
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -515,4 +516,5 @@ public class SearchActivity extends BaseActivity {
         }
         return super.dispatchKeyEvent(event);
     }
+*/
 }
