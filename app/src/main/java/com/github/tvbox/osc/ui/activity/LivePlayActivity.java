@@ -304,7 +304,7 @@ public class LivePlayActivity extends BaseActivity {
             findViewById(R.id.ll_epg).setVisibility(View.VISIBLE);
             ((TextView) findViewById(R.id.tv_channel_bar_name)).setText(channel_Name.getChannelName());
             ((TextView) findViewById(R.id.tv_channel_bottom_number)).setText("" + channel_Name.getChannelNum());
-            ((TextView) findViewById(R.id.tv_current_program_time)).setText("咦，暂无信息");
+            ((TextView) findViewById(R.id.tv_current_program_time)).setText("暂无节目信息");
             ((TextView) findViewById(R.id.tv_current_program_name)).setText("");
             ((TextView) findViewById(R.id.tv_next_program_time)).setText("DweiTV");
             ((TextView) findViewById(R.id.tv_next_program_name)).setText("");
