@@ -1389,7 +1389,8 @@ public class PlayFragment extends BaseLazyFragment {
                     } else {
                         playUrl(url, null);
                     }
-                    mController.setUrlTitle("视频地址："+url);
+                    //播放暂停显示
+                    //mController.setUrlTitle("视频地址："+url);
                     stopLoadWebView(false);
                 }
             }
@@ -1578,7 +1579,8 @@ public class PlayFragment extends BaseLazyFragment {
                     } else {
                         playUrl(url, null);
                     }
-                    mController.setUrlTitle("视频地址："+url);
+                    //播放暂停显示
+                    //mController.setUrlTitle("视频地址："+url);
                     stopLoadWebView(false);
                 }
             }
