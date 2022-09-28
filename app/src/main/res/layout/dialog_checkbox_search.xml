@@ -17,7 +17,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/checkAll"
-                android:layout_width="@dimen/vs_420"
+                android:layout_width="@dimen/vs_210"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -28,10 +28,10 @@
                 android:textColor="@color/color_FFFFFF"
                 android:textSize="@dimen/ts_26"
                 android:text="全选/反选" />
-/*
+
             <TextView
                 android:id="@+id/clearAll"
-                android:layout_width="@dimen/vs_200"
+                android:layout_width="@dimen/vs_210"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -40,10 +40,10 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="@dimen/vs_30"
-                android:text="全不选"
+                android:text="取消"
                 android:textColor="@color/color_FFFFFF"
                 android:textSize="@dimen/ts_26" />
-*/
+
         </LinearLayout>
 
         <com.owen.tvrecyclerview.widget.TvRecyclerView
