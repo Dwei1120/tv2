@@ -60,7 +60,8 @@ public class VideoViewConfig {
 
         private boolean mIsEnableLog;
         private boolean mPlayOnMobileNetwork = true;
-        private boolean mEnableOrientation = true;
+        private boolean mEnableOrientation;
+        //private boolean mEnableOrientation = true;//视频高宽比旋转
         private boolean mEnableAudioFocus = true;
         private ProgressManager mProgressManager;
         private PlayerFactory mPlayerFactory;
