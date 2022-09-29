@@ -396,7 +396,9 @@ public abstract class BaseVideoController extends FrameLayout
      * 横竖屏切换
      */
     protected void toggleFullScreen() {
-        mControlWrapper.toggleFullScreenByVideoSize(mActivity);
+        mControlWrapper.toggleFullScreen(mActivity);
+        //视频高宽比旋转511\525\532
+        //mControlWrapper.toggleFullScreenByVideoSize(mActivity);
     }
 
     /**
@@ -509,7 +511,9 @@ public abstract class BaseVideoController extends FrameLayout
         //没有开启设备方向监听的情况
         if (!mEnableOrientation) return;
 
-        int[] size = mControlWrapper.getVideoSize();
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        mControlWrapper.stopFullScreen();
+/*            int[] size = mControlWrapper.getVideoSize();
         int width = size[0];
         int height = size[1];
         int o = activity.getRequestedOrientation();
@@ -517,13 +521,20 @@ public abstract class BaseVideoController extends FrameLayout
            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
            mControlWrapper.replay(true);
         }
+*/
     }
 
     /**
      * 横屏
      */
     protected void onOrientationLandscape(Activity activity) {
-        int[] size = mControlWrapper.getVideoSize();
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        if (mControlWrapper.isFullScreen()) {
+            handlePlayerStateChanged(VideoView.PLAYER_FULL_SCREEN);
+        } else {
+            mControlWrapper.startFullScreen();
+        }
+/*        int[] size = mControlWrapper.getVideoSize();
         int width = size[0];
         int height = size[1];
         if (width > height) {
@@ -533,14 +544,20 @@ public abstract class BaseVideoController extends FrameLayout
            } else {
                mControlWrapper.startFullScreen();
            }
-       } 
+       }
+*/
     }
 
     /**
      * 反向横屏
      */
     protected void onOrientationReverseLandscape(Activity activity) {
-        int[] size = mControlWrapper.getVideoSize();
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+        if (mControlWrapper.isFullScreen()) {
+            handlePlayerStateChanged(VideoView.PLAYER_FULL_SCREEN);
+        } else {
+            mControlWrapper.startFullScreen();
+/*            int[] size = mControlWrapper.getVideoSize();
         int width = size[0];
         int height = size[1];
         if (width > height) {
@@ -550,6 +567,7 @@ public abstract class BaseVideoController extends FrameLayout
             } else {
            mControlWrapper.startFullScreen();
             } 
+*/
        } 
     }
 
