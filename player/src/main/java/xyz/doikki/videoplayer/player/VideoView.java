@@ -5,7 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.TypedArray;
-import android.content.pm.ActivityInfo;
+//import android.content.pm.ActivityInfo;//视频高宽比旋转736\791
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -732,7 +732,7 @@ public class VideoView<P extends AbstractPlayer> extends FrameLayout
         this.removeView(mPlayerContainer);
         //将播放器视图添加到DecorView中即实现了全屏
         decorView.addView(mPlayerContainer);
-
+/*
         Activity activity = getActivity();
         int[] size = getVideoSize();
         int width = size[0];
@@ -740,7 +740,7 @@ public class VideoView<P extends AbstractPlayer> extends FrameLayout
         if (width < height) {
            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        
+ */       
         setPlayerState(PLAYER_FULL_SCREEN);
     }
 
@@ -787,7 +787,7 @@ public class VideoView<P extends AbstractPlayer> extends FrameLayout
         //把播放器视图从DecorView中移除并添加到当前FrameLayout中即退出了全屏
         decorView.removeView(mPlayerContainer);
         this.addView(mPlayerContainer);
-
+/*
         Activity activity = getActivity();
         int[] size = getVideoSize();
         int width = size[0];
@@ -795,7 +795,7 @@ public class VideoView<P extends AbstractPlayer> extends FrameLayout
         if (width < height) {
            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        
+*/    
         setPlayerState(PLAYER_NORMAL);
     }
 
