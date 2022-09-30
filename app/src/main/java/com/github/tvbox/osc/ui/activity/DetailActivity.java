@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
+import com.github.tvbox.osc.base.App;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.bean.AbsXml;
 import com.github.tvbox.osc.bean.Movie;
@@ -372,7 +373,8 @@ public class DetailActivity extends BaseActivity {
             //保存历史
             insertVod(sourceKey, vodInfo);
             bundle.putString("sourceKey", sourceKey);
-            bundle.putSerializable("VodInfo", vodInfo);
+            //bundle.putSerializable("VodInfo", vodInfo);
+            App.getInstance().setVodInfo(vodInfo);
             if (showPreview) {
                 if (previewVodInfo == null) {
                     try {
@@ -392,7 +394,8 @@ public class DetailActivity extends BaseActivity {
                     previewVodInfo.playFlag = vodInfo.playFlag;
                     previewVodInfo.playIndex = vodInfo.playIndex;
                     previewVodInfo.seriesMap = vodInfo.seriesMap;
-                    bundle.putSerializable("VodInfo", previewVodInfo);
+                    App.getInstance().setVodInfo(previewVodInfo);
+                    //bundle.putSerializable("VodInfo", previewVodInfo);
                 }
                 playFragment.setData(bundle);
             } else {
