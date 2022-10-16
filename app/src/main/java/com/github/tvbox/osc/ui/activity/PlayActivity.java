@@ -1544,7 +1544,7 @@ public class PlayActivity extends BaseActivity {
 //                return createXWalkWebResourceResponse("image/png", null, null);
 //            }
             if (url.endsWith("/favicon.ico")) {
-                return null;
+                return super.shouldInterceptLoadRequest(view, request);
             }
             LOG.i("shouldInterceptLoadRequest url:" + url);
             boolean ad;
